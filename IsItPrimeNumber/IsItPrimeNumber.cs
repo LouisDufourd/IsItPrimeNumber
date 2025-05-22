@@ -10,37 +10,57 @@ namespace IsItPrimeNumber
     {
         static void Main(string[] args)
         {
-            int number = 0;
-            bool success = false;
-
-            while (!success)
+            while (true)
             {
-                Console.WriteLine("Type a number to know if it's a prime number");
-                success = Int32.TryParse(Console.ReadLine(), out number);
+                int number = 0;
+                bool success = false;
+                int divisable = 0;
+                bool isPrime;
 
-                if (success) continue;
-                Console.WriteLine("Please type a number");
+                while (!success)
+                {
+                    Console.WriteLine("Type a number to know if it's a prime number (Press Q to leave the close the program).");
+                    String input = Console.ReadLine();
+
+                    if (String.Equals(input, "q", StringComparison.InvariantCultureIgnoreCase) || input == null) return;
+
+                    success = Int32.TryParse(input, out number);
+
+                    if (success) continue;
+                    Console.WriteLine("Please type a number");
+                }
+
+                if (number < 0) number *= -1;
+
+                isPrime = isPrimeNumber(number, out divisable);
+
+                if (isPrime)
+                {
+                    Console.WriteLine($"{number} is a prime number!");
+                } else
+                {
+                    Console.WriteLine($"{number} is not a prime number and can be divised by {divisable}!");
+                }
             }
+        }
 
-            int sqrt = (int) Math.Ceiling(Math.Sqrt(number));
-            int divisible = -1;
+        public static bool isPrimeNumber(int number, out int divisable)
+        {
+            divisable = -1;
+
+            int sqrt = (int)Math.Ceiling(Math.Sqrt(number));
 
             for (int i = 2; i < sqrt; i++)
             {
                 int reste = number % i;
-                if (reste == 0) {
-                    divisible = i;
-                    break; 
+                if (reste == 0)
+                {
+                    divisable = i;
+                    break;
                 }
             }
 
-            if (divisible == -1)
-            {
-                Console.WriteLine($"{number} is a prime number");
-                return;
-            }
-
-            Console.WriteLine($"{number} is not a prime number and can be divised by {divisible}");
+            return divisable == -1;
         }
     }
 }
