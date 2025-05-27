@@ -14,13 +14,12 @@ namespace IsItPrimeNumber
             {
                 int number = 0;
                 bool success = false;
-                int divisable = 0;
                 bool isPrime;
 
                 while (!success)
                 {
                     Console.WriteLine("Type a number to know if it's a prime number (Press Q to leave the close the program).");
-                    String input = Console.ReadLine();
+                    String? input = Console.ReadLine();
 
                     if (String.Equals(input, "q", StringComparison.InvariantCultureIgnoreCase) || input == null) return;
 
@@ -32,7 +31,7 @@ namespace IsItPrimeNumber
 
                 if (number < 0) number *= -1;
 
-                isPrime = isPrimeNumber(number, out divisable);
+                isPrime = isPrimeNumber(number, out int divisable);
 
                 if (isPrime)
                 {
@@ -48,9 +47,9 @@ namespace IsItPrimeNumber
         {
             divisable = -1;
 
-            int sqrt = (int)Math.Ceiling(Math.Sqrt(number));
+            int sqrt = (int)Math.Round(Math.Sqrt(number));
 
-            for (int i = 2; i < sqrt; i++)
+            for (int i = 2; i <= sqrt; i++)
             {
                 int reste = number % i;
                 if (reste == 0)
